@@ -4,6 +4,8 @@ import com.armancodeblock.user_rest_api.enity.User;
 import com.armancodeblock.user_rest_api.exception.ResourceNotFoundException;
 import com.armancodeblock.user_rest_api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +25,8 @@ public class UserService {
     }
 
 
+
+
 public User getUserById(Long userId){
   Optional<User> opUser =  userRepository.findById(userId);
   if(opUser.isPresent()){
@@ -30,7 +34,8 @@ public User getUserById(Long userId){
   }  else {
       throw  new ResourceNotFoundException("User not found with userId:"+ userId);
   }
-// find All users name start with "A"
+
+
 }
 
 public void deleteUserById(Long userId){
@@ -51,6 +56,10 @@ public void deleteUserById(Long userId){
         }
 
     }
+
+   public List<User> getAllUsersByNamePrefix(String prefix) {
+  return userRepository.findUserByNamePrefix(prefix);
+   }
 
 
 }
