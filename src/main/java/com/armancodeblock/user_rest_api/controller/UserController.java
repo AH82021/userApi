@@ -4,6 +4,8 @@ import com.armancodeblock.user_rest_api.enity.User;
 import com.armancodeblock.user_rest_api.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -27,8 +29,9 @@ public class UserController {
     //client send a request(get) at path localhost:8080/api/v1/users
     // controller will handle this request and send a response({users,200})
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
+    public ResponseEntity<Page<User>> getAllUsers(Pageable pageable) {
+        Page<User> users = userService.getAllUsers(pageable);
+
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
@@ -57,6 +60,10 @@ public class UserController {
     @GetMapping("/search")
     public ResponseEntity<List<User>> getAllUserByNamePrefix(@RequestParam String prefix) {
         return new ResponseEntity<>(userService.getAllUsersByNamePrefix(prefix), HttpStatus.OK);
+    }
+    @GetMapping("/search/paged")
+    public ResponseEntity<Page<User>> getAllUserByNamePrefix(@RequestParam String prefix, Pageable pageable) {
+        return new ResponseEntity<>(userService.getAllUserByNamePrefix(prefix, pageable), HttpStatus.OK);
     }
 
 }

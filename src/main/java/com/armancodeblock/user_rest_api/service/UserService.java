@@ -19,9 +19,9 @@ public class UserService {
     public User createUser(User user){
       return   userRepository.save(user);
     }
-
-    public List<User> getAllUsers(){
-     return    userRepository.findAll();
+// get all users need pagination and sorting since it can return large data
+    public Page<User> getAllUsers(Pageable pageable){
+     return    userRepository.findAll(pageable);
     }
 
 
@@ -61,5 +61,8 @@ public void deleteUserById(Long userId){
   return userRepository.findUserByNamePrefix(prefix);
    }
 
+   public Page<User> getAllUserByNamePrefix(String prefix,Pageable pageable){
+        return userRepository.findByNameStartingWith(prefix, pageable);
+   }
 
 }
