@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service
+// @Service  // Temporarily disabled to avoid conflict with InMemoryUserDetailsManager
 public class AuthUserService implements UserDetailsService {
     @Autowired
     private AuthUserRepository authUserRepository;
