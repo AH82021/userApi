@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("api/v1/")
 public class LoginController {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
@@ -27,7 +27,7 @@ public class LoginController {
     private AuthenticationManager authenticationManager;
 @PostMapping("/login")
     public ResponseEntity<?> getToken(@RequestBody AccountCredentials credentials){
- logger.info("Login attempt for user "+ credentials.getUsername());
+    logger.info("Login attempt for user {}", credentials.getUsername());
     UsernamePasswordAuthenticationToken creds = new UsernamePasswordAuthenticationToken(credentials.getUsername(),credentials.getPassword());
     logger.warn("Creds Object: " + creds);
 
@@ -36,8 +36,8 @@ public class LoginController {
      //Generate JWT token
     String jwtToken = jwtService.getToken(auth.getName());
     return ResponseEntity.ok()
-            .header(HttpHeaders.AUTHORIZATION,"Bearer " + jwtToken) // Add space after "Bearer"
+            .header(HttpHeaders.AUTHORIZATION,"Bearer" + jwtToken)
+            .header(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS,"AUTHORIZATION")
             .build();
 }
 }
-
